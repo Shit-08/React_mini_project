@@ -6,6 +6,7 @@ import InfoBox from "./InfoBox";
 
 export default function SearchBox({ updateInfo }) {
   let [city, setCity] = useState("");
+  let [error, setError] = useState(false);
 
   const API_URL = "https://api.openweathermap.org/data/2.5/weather";
   const API_KEY = "03213859d4412e677990f077622a744d";
@@ -32,10 +33,14 @@ export default function SearchBox({ updateInfo }) {
   };
 
   let handleSubmit = async (evt) => {
-    evt.preventDefault();
-    setCity("");
-    let newInfo = await getWeatherInfo();
-    updateInfo(newInfo);
+    try {
+      evt.preventDefault();
+      setCity("");
+      let newInfo = await getWeatherInfo();
+      updateInfo(newInfo);
+    } catch (err) {
+      setError(true);
+    }
   };
 
   return (
@@ -53,6 +58,7 @@ export default function SearchBox({ updateInfo }) {
         <Button variant="contained" type="submit">
           Search
         </Button>
+        {error && <p style={{ color: "red" }}>No such place exists!</p>}
       </form>
     </div>
   );
