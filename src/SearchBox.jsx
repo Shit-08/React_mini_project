@@ -33,6 +33,7 @@ export default function SearchBox({ updateInfo }) {
   };
 
   let handleSubmit = async (evt) => {
+    setError(false);
     try {
       evt.preventDefault();
       setCity("");
